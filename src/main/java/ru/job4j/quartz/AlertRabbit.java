@@ -59,7 +59,7 @@ public class AlertRabbit {
                     .getJobDataMap()
                     .get("connection")) {
                 try (PreparedStatement statement = connection.prepareStatement(
-                        String.format("insert into rabbit(created_date) values(current_timestamp)")
+                        "insert into rabbit(created_date) values(current_timestamp)"
                 )) {
                     statement.execute();
                 }
