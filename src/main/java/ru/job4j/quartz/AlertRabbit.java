@@ -3,10 +3,7 @@ package ru.job4j.quartz;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -61,9 +58,10 @@ public class AlertRabbit {
                     .getJobDetail()
                     .getJobDataMap()
                     .get("connection")) {
-                try (Statement statement = connection.createStatement()) {
-                    String sql = "insert into rabbit(created_date) values(current_timestamp)";
-                    statement.execute(String.format(sql));
+                try (PreparedStatement statement = connection.prepareStatement(
+                        String.format("insert into rabbit(created_date) values(current_timestamp)")
+                )) {
+                    statement.execute();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
