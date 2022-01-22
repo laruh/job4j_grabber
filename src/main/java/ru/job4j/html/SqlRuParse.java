@@ -4,11 +4,20 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.job4j.grabber.utils.DateTimeParser;
 import ru.job4j.grabber.utils.SqlRuDateTimeParser;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class SqlRuParse {
+public class SqlRuParse implements Parse {
+    private final DateTimeParser dateTimeParser;
+
+    public SqlRuParse(DateTimeParser dateTimeParser) {
+        this.dateTimeParser = dateTimeParser;
+    }
+
     public static Post parsePost(Element href) throws IOException {
         String url = href.attr("href");
         Document doc = Jsoup.connect(url).get();
@@ -21,7 +30,7 @@ public class SqlRuParse {
     }
 
     public static void main(String[] args) throws Exception {
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 1; i <= 5; i++) {
             Document doc = Jsoup.connect(
                     "https://www.sql.ru/forum/job-offers/" + i).get();
             Elements row = doc.select(".postslisttopic");
@@ -35,5 +44,15 @@ public class SqlRuParse {
                 System.out.println(parsePost(href));
             }
         }
+    }
+
+    @Override
+    public List<Post> list(String link) {
+        return null;
+    }
+
+    @Override
+    public Post detail(String link) {
+        return null;
     }
 }
