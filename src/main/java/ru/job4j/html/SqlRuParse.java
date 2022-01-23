@@ -29,7 +29,8 @@ public class SqlRuParse implements Parse {
                 for (Element td : row) {
                     Element href = td.child(0);
                     String url = href.attr("href");
-                    if (href.text().contains(" Java ")) {
+                    if (href.text().toLowerCase().contains("java".toLowerCase())
+                            && !href.text().toLowerCase().contains("javascipt".toLowerCase())) {
                         rsl.add(detail(url));
                     }
                 }
