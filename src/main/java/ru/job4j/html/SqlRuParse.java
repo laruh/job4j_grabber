@@ -18,15 +18,15 @@ public class SqlRuParse implements Parse {
         this.dateTimeParser = dateTimeParser;
     }
 
-    public static Post parsePost(Element href) throws IOException {
-        String url = href.attr("href");
+    public static Post parsePost(String url) throws IOException {
         Document doc = Jsoup.connect(url).get();
+        String title = doc.select(".messageHeader").get(0).ownText();
         String description = doc.select(".msgBody").get(1).text();
         SqlRuDateTimeParser parserTime = new SqlRuDateTimeParser();
         String time = doc.selectFirst(".msgFooter").text();
         String timeClean = time.substring(0, time.indexOf("[")).trim();
         LocalDateTime created = parserTime.parse(timeClean);
-        return new Post(href.text(), url, description, created);
+        return new Post(title, url, description, created);
     }
 
     public static void main(String[] args) throws Exception {
@@ -37,11 +37,12 @@ public class SqlRuParse implements Parse {
             for (Element td : row) {
                 Element href = td.child(0);
                 Element parent = td.parent();
-                System.out.println(href.attr("href"));
+                String url = href.attr("href");
+                System.out.println(url);
                 System.out.println(href.text());
                 SqlRuDateTimeParser sqlRuDateTimeParser = new SqlRuDateTimeParser();
                 System.out.println(sqlRuDateTimeParser.parse(parent.child(5).text()));
-                System.out.println(parsePost(href));
+                System.out.println(parsePost(url));
             }
         }
     }
