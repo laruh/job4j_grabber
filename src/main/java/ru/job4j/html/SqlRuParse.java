@@ -9,6 +9,7 @@ import ru.job4j.grabber.utils.SqlRuDateTimeParser;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SqlRuParse implements Parse {
@@ -18,42 +19,36 @@ public class SqlRuParse implements Parse {
         this.dateTimeParser = dateTimeParser;
     }
 
-    public static Post parsePost(String url) throws IOException {
-        Document doc = Jsoup.connect(url).get();
-        String title = doc.select(".messageHeader").get(0).ownText();
-        String description = doc.select(".msgBody").get(1).text();
-        SqlRuDateTimeParser parserTime = new SqlRuDateTimeParser();
-        String time = doc.selectFirst(".msgFooter").text();
-        String timeClean = time.substring(0, time.indexOf("[")).trim();
-        LocalDateTime created = parserTime.parse(timeClean);
-        return new Post(title, url, description, created);
-    }
-
-    public static void main(String[] args) throws Exception {
+    @Override
+    public List<Post> list(String link) throws IOException {
+        List<Post> rsl = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
-            Document doc = Jsoup.connect(
-                    "https://www.sql.ru/forum/job-offers/" + i).get();
+            Document doc = Jsoup.connect(link + i).get();
             Elements row = doc.select(".postslisttopic");
             for (Element td : row) {
                 Element href = td.child(0);
-                Element parent = td.parent();
                 String url = href.attr("href");
-                System.out.println(url);
-                System.out.println(href.text());
-                SqlRuDateTimeParser sqlRuDateTimeParser = new SqlRuDateTimeParser();
-                System.out.println(sqlRuDateTimeParser.parse(parent.child(5).text()));
-                System.out.println(parsePost(url));
+                rsl.add(detail(url));
             }
         }
+        return rsl;
     }
 
     @Override
-    public List<Post> list(String link) {
-        return null;
+    public Post detail(String link) throws IOException {
+        Document doc = Jsoup.connect(link).get();
+        String title = doc.select(".messageHeader").get(0).ownText();
+        String description = doc.select(".msgBody").get(1).text();
+        String time = doc.selectFirst(".msgFooter").text();
+        String timeClean = time.substring(0, time.indexOf("[")).trim();
+        LocalDateTime created = dateTimeParser.parse(timeClean);
+        return new Post(title, link, description, created);
     }
 
-    @Override
-    public Post detail(String link) {
-        return null;
+    public static void main(String[] args) throws Exception {
+        String url = "https://www.sql.ru/forum/job-offers/";
+        SqlRuParse sqlRuParse = new SqlRuParse(new SqlRuDateTimeParser());
+        List<Post> listPosts = sqlRuParse.list(url);
+        System.out.println(listPosts.get(20));
     }
 }
