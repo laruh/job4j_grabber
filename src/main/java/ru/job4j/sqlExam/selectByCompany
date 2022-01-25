@@ -1,0 +1,48 @@
+CREATE TABLE company(
+	id integer NOT NULL,
+    name character varying,
+    CONSTRAINT company_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE person(
+    id integer NOT NULL,
+    name character varying,
+    company_id integer references company(id),
+    CONSTRAINT person_pkey PRIMARY KEY (id)
+);
+
+select * from company;
+select * from person;
+
+insert into company(id, name) values(1, 'Micran');
+insert into company(id, name) values(2, 'Sibur');
+insert into company(id, name) values(3, 'Gazprom');
+insert into company(id, name) values(4, 'Rubius');
+insert into company(id, name) values(5, 'Sibedge');
+
+insert into person(id, name, company_id) values(1, 'Sam', 1);
+insert into person(id, name, company_id) values(2, 'Oleg', 4);
+insert into person(id, name, company_id) values(3, 'Marina', 2);
+insert into person(id, name, company_id) values(4, 'Slava', 3);
+insert into person(id, name, company_id) values(5, 'Iaroslav', 3);
+insert into person(id, name, company_id) values(6, 'Ramil', 3);
+insert into person(id, name, company_id) values(7, 'Alyona', 4);
+insert into person(id, name, company_id) values(8, 'Petr', 4);
+insert into person(id, name, company_id) values(9, 'Denis', 5);
+
+--задание 1
+select p.name as person_name, c.name as company_name
+from person p, company c
+where p.company_id=c.id
+and c.id != 5;
+
+--задание 2
+select c.name as company_name, count(p.company_id) as ppl
+from person p, company c
+where p.company_id=c.id
+group by c.id
+having count(p.company_id) in
+ (select MAX(mycount)
+  from (select COUNT(company_id) as mycount
+	   from person
+	   group by company_id) a)
