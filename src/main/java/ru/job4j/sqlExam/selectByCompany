@@ -41,8 +41,10 @@ select c.name as company_name, count(p.company_id) as ppl
 from person p, company c
 where p.company_id=c.id
 group by c.id
-having count(p.company_id) in
- (select MAX(mycount)
-  from (select COUNT(company_id) as mycount
-	   from person
-	   group by company_id) a)
+having count(p.company_id) in (
+	select COUNT(company_id) as mycount
+	from person
+	group by company_id
+	order by mycount DESC
+	LIMIT 1
+);
