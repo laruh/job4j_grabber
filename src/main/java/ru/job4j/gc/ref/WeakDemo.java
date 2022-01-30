@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 public class WeakDemo {
 
     public static void main(String[] args) throws InterruptedException {
-        //example1();
-        //example2();
-        //example3();
+        example1();
+        example2();
+        example3();
         safeExample();
     }
 
