@@ -23,7 +23,7 @@ public class Emulator {
     }
 
     public static String loadCache(DirFileCache dirFileCache, String key) {
-        return dirFileCache.load(key);
+        return dirFileCache.get(key);
     }
 
     public static void main(String[] args) {
