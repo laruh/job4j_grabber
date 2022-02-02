@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.Calendar;
 
 public class ReportEngineTest {
-    private static final double CONST = 1.5;
 
     @Test
     public void reportHR() {
@@ -44,12 +43,12 @@ public class ReportEngineTest {
                 .append(worker.getName()).append(";")
                 .append(worker.getHired()).append(";")
                 .append(worker.getFired()).append(";")
-                .append(worker.getSalary() * CONST).append(";")
+                .append(worker.getSalary() * ReportAccounting.CONST).append(";")
                 .append(System.lineSeparator())
                 .append(worker1.getName()).append(";")
                 .append(worker1.getHired()).append(";")
                 .append(worker1.getFired()).append(";")
-                .append(worker1.getSalary() * CONST).append(";")
+                .append(worker1.getSalary() * ReportAccounting.CONST).append(";")
                 .append(System.lineSeparator());
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
