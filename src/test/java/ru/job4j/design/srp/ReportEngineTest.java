@@ -77,4 +77,46 @@ public class ReportEngineTest {
                 .append("</body>\n</html>");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
+
+    @Test
+    public void reportJson() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        ReportJson report = new ReportJson();
+        Report engine = new ReportEngine(store, report);
+        StringBuilder expect = new StringBuilder()
+                .append("[")
+                .append("{")
+                .append("\"name\":\"").append(worker.getName()).append("\",")
+                .append("\"hired\":").append("{").append("\"year\":")
+                .append(worker.getHired().get(Calendar.YEAR))
+                .append(",")
+                .append("\"month\":").append(worker.getHired().get(Calendar.MONTH))
+                .append(",")
+                .append("\"dayOfMonth\":").append(worker.getHired().get(Calendar.DAY_OF_MONTH))
+                .append(",")
+                .append("\"hourOfDay\":").append(worker.getHired().get(Calendar.HOUR_OF_DAY))
+                .append(",")
+                .append("\"minute\":").append(worker.getHired().get(Calendar.MINUTE))
+                .append(",")
+                .append("\"second\":").append(worker.getHired().get(Calendar.SECOND))
+                .append("},")
+                .append("\"fired\":").append("{").append("\"year\":").append(worker.getHired()
+                        .get(Calendar.YEAR))
+                .append(",")
+                .append("\"month\":").append(worker.getHired().get(Calendar.MONTH)).append(",")
+                .append("\"dayOfMonth\":").append(worker.getHired().get(Calendar.DAY_OF_MONTH))
+                .append(",")
+                .append("\"hourOfDay\":").append(worker.getHired().get(Calendar.HOUR_OF_DAY))
+                .append(",")
+                .append("\"minute\":").append(worker.getHired().get(Calendar.MINUTE))
+                .append(",")
+                .append("\"second\":").append(worker.getHired().get(Calendar.SECOND))
+                .append("},")
+                .append("\"salary\":").append(worker.getSalary()).append("}")
+                .append("]");
+        assertThat(engine.generate(em -> true), is(expect.toString()));
+    }
 }
