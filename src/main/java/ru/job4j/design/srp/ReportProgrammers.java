@@ -2,7 +2,7 @@ package ru.job4j.design.srp;
 
 import java.util.List;
 
-public class ReportProgrammers implements ReportDepartment {
+public class ReportProgrammers implements ReportType {
     @Override
     public String report(List<Employee> list) {
         StringBuilder text = new StringBuilder();

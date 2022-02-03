@@ -2,7 +2,7 @@ package ru.job4j.design.srp;
 
 import java.util.List;
 
-public class ReportAccounting implements ReportDepartment {
+public class ReportAccounting implements ReportType {
     public static final double CONST = 1.5;
 
     @Override

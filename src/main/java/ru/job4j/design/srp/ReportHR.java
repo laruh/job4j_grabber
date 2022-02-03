@@ -2,7 +2,7 @@ package ru.job4j.design.srp;
 
 import java.util.List;
 
-public class ReportHR implements ReportDepartment {
+public class ReportHR implements ReportType {
 
     @Override
     public String report(List<Employee> list) {
