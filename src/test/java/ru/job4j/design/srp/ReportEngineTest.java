@@ -3,6 +3,7 @@ package ru.job4j.design.srp;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 import org.junit.Test;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ReportEngineTest {
@@ -86,37 +87,48 @@ public class ReportEngineTest {
         store.add(worker);
         ReportJson report = new ReportJson();
         Report engine = new ReportEngine(store, report);
-        StringBuilder expect = new StringBuilder()
-                .append("[")
-                .append("{")
-                .append("\"name\":\"").append(worker.getName()).append("\",")
-                .append("\"hired\":").append("{").append("\"year\":")
-                .append(worker.getHired().get(Calendar.YEAR))
-                .append(",")
-                .append("\"month\":").append(worker.getHired().get(Calendar.MONTH))
-                .append(",")
-                .append("\"dayOfMonth\":").append(worker.getHired().get(Calendar.DAY_OF_MONTH))
-                .append(",")
-                .append("\"hourOfDay\":").append(worker.getHired().get(Calendar.HOUR_OF_DAY))
-                .append(",")
-                .append("\"minute\":").append(worker.getHired().get(Calendar.MINUTE))
-                .append(",")
-                .append("\"second\":").append(worker.getHired().get(Calendar.SECOND))
-                .append("},")
-                .append("\"fired\":").append("{").append("\"year\":").append(worker.getHired()
-                        .get(Calendar.YEAR))
-                .append(",")
-                .append("\"month\":").append(worker.getHired().get(Calendar.MONTH)).append(",")
-                .append("\"dayOfMonth\":").append(worker.getHired().get(Calendar.DAY_OF_MONTH))
-                .append(",")
-                .append("\"hourOfDay\":").append(worker.getHired().get(Calendar.HOUR_OF_DAY))
-                .append(",")
-                .append("\"minute\":").append(worker.getHired().get(Calendar.MINUTE))
-                .append(",")
-                .append("\"second\":").append(worker.getHired().get(Calendar.SECOND))
-                .append("},")
-                .append("\"salary\":").append(worker.getSalary()).append("}")
-                .append("]");
-        assertThat(engine.generate(em -> true), is(expect.toString()));
+        String expect = "[{\"name\":\"" + worker.getName()
+                + "\",\"hired\":{\"year\":" + worker.getHired().get(Calendar.YEAR)
+                + ",\"month\":" + worker.getHired().get(Calendar.MONTH) + ","
+                + "\"dayOfMonth\":" + worker.getHired().get(Calendar.DAY_OF_MONTH)
+                + ",\"hourOfDay\":" + worker.getHired().get(Calendar.HOUR_OF_DAY)
+                + ",\"minute\":" + worker.getHired().get(Calendar.MINUTE)
+                + ",\"second\":" + worker.getHired().get(Calendar.SECOND)
+                + "},\"fired\":" + "{" + "\"year\":" + worker.getHired().get(Calendar.YEAR)
+                + ",\"month\":" + worker.getHired().get(Calendar.MONTH)
+                + ",\"dayOfMonth\":" + worker.getHired().get(Calendar.DAY_OF_MONTH)
+                + ",\"hourOfDay\":" + worker.getHired().get(Calendar.HOUR_OF_DAY)
+                + ",\"minute\":" + worker.getHired().get(Calendar.MINUTE)
+                + ",\"second\":" + worker.getHired().get(Calendar.SECOND)
+                + "},\"salary\":" + worker.getSalary() + "}]";
+        assertThat(engine.generate(em -> true), is(expect));
+    }
+
+    @Test
+    public void reportXml() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        String dateString = dateFormat.format(now.getTime());
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        ReportXml report = new ReportXml();
+        Report engine = new ReportEngine(store, report);
+        String expect = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                + "\n<employees>"
+                + "\n"
+                + "    <employees>"
+                + "\n"
+                + "        <fired>" + dateString + "</fired>"
+                + "\n"
+                + "        <hired>" + dateString + "</hired>"
+                + "\n"
+                + "        <name>" + worker.getName() + "</name>"
+                + "\n"
+                + "        <salary>" + worker.getSalary() + "</salary>"
+                + "\n"
+                + "    </employees>"
+                + "\n</employees>\n";
+        assertThat(engine.generate(em -> true), is(expect));
     }
 }
