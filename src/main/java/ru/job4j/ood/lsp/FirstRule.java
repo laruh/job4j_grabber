@@ -50,10 +50,9 @@ class AutoTransport {
         if (km < 0) {
             throw new IllegalArgumentException("Invalid distance!");
         }
-        if (fuel < 0) { // <= предусловие
+        if (fuel < 0) {
             throw new IllegalArgumentException("Need more fuel!");
         }
-        // other logic
     }
 
 }
@@ -68,10 +67,9 @@ class Bus extends AutoTransport {
         if (km < 0) {
             throw new IllegalArgumentException("Invalid distance!");
         }
-        if (getFuel() < 5) { // условие усилено
+        if (getFuel() < 5) {
             throw new IllegalArgumentException("Need more fuel!");
         }
-        // other logic
     }
 
 }
