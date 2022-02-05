@@ -11,13 +11,13 @@ public class ControllQualityTest {
 
     @Test
     public void foodSorted() {
-        Food milk = new Food("Milk",
+        Food milk = new Food("Milk new",
                 LocalDate.of(2022, 2, 10),
                 LocalDate.of(2022, 2, 4),
                 56.5);
-        Food soda = new Food("Soda",
+        Food soda = new Food("Soda new",
                 LocalDate.of(2022, 12, 2),
-                LocalDate.of(2021, 12, 2),
+                LocalDate.of(2021, 11, 2),
                 10);
         Food badCheese = new Food("Bad Cheese",
                 LocalDate.of(2022, 2, 2),
@@ -43,12 +43,12 @@ public class ControllQualityTest {
         ControllQuality cQuality = new ControllQuality(foodList, warehouse, shop, trash);
         cQuality.foodStorage(warehousePred, trashPred, shopPred1, shopPred2);
 
-        Food sodaWare = new Food("Soda",
+        Food sodaWare = new Food("Soda new",
                 LocalDate.of(2022, 12, 2),
-                LocalDate.of(2021, 12, 2),
+                LocalDate.of(2021, 11, 2),
                 10);
         sodaWare.setDiscount(0);
-        Food milkShop = new Food("Milk",
+        Food milkShop = new Food("Milk new",
                 LocalDate.of(2022, 2, 10),
                 LocalDate.of(2022, 2, 4),
                 56.5);
