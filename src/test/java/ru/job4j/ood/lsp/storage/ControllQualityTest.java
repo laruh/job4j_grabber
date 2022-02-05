@@ -11,15 +11,11 @@ public class ControllQualityTest {
 
     @Test
     public void foodShop() {
-        Food milk = new Food("Milk new",
-                LocalDate.of(2022, 2, 10),
-                LocalDate.of(2022, 2, 4),
-                56.5);
         Food chocolate = new Food("Chocolate",
                 LocalDate.of(2022, 2, 8),
                 LocalDate.of(2021, 1, 5),
                 10);
-        List<Food> foodList = List.of(milk, chocolate);
+        List<Food> foodList = List.of(chocolate);
 
         Warehouse warehouse = new Warehouse();
         Shop shop = new Shop();
@@ -35,17 +31,12 @@ public class ControllQualityTest {
         ControllQuality cQuality = new ControllQuality(foodList, warehouse, shop, trash);
         cQuality.foodStorage(warehousePred, trashPred, shopPred1, shopPred2);
 
-        Food milkShop = new Food("Milk new",
-                LocalDate.of(2022, 2, 10),
-                LocalDate.of(2022, 2, 4),
-                56.5);
-        milkShop.setDiscount(0);
         Food chocoShop = new Food("Chocolate",
                 LocalDate.of(2022, 2, 8),
                 LocalDate.of(2021, 1, 5),
                 10);
         chocoShop.setDiscount(15);
-        List<Food> shopExp = List.of(milkShop, chocoShop);
+        List<Food> shopExp = List.of(chocoShop);
         assertEquals(shopExp, cQuality.getShop().findAll());
     }
 
