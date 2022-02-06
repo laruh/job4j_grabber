@@ -7,6 +7,16 @@ public class Trash implements Storage {
     private List<Food> foodList = new ArrayList<>();
 
     @Override
+    public boolean check(Food food) {
+        boolean rsl = false;
+        float percent = staleness(food);
+        if (percent >= 100) {
+            rsl = true;
+        }
+        return rsl;
+    }
+
+    @Override
     public void add(Food food) {
         foodList.add(food);
     }

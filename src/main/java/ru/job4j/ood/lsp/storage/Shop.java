@@ -7,6 +7,19 @@ public class Shop implements Storage {
     private List<Food> foodList = new ArrayList<>();
 
     @Override
+    public boolean check(Food food) {
+        boolean rsl = false;
+        float percent = staleness(food);
+        if (percent >= 25 && percent < 75) {
+            rsl = true;
+        } else if (percent >= 75 && percent < 100) {
+            food.setDiscount(15);
+            rsl = true;
+        }
+        return rsl;
+    }
+
+    @Override
     public void add(Food food) {
         foodList.add(food);
     }
