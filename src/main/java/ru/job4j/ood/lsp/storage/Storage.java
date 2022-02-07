@@ -14,7 +14,7 @@ public interface Storage {
         return  ((float) a / b) * 100;
     }
 
-    void add(Food food);
+    boolean add(Food food);
 
     List<Food> findAll();
 }

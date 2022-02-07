@@ -17,12 +17,17 @@ public class Trash implements Storage {
     }
 
     @Override
-    public void add(Food food) {
-        foodList.add(food);
+    public boolean add(Food food) {
+        boolean rsl = false;
+        if (check(food)) {
+            foodList.add(food);
+            rsl = true;
+        }
+        return rsl;
     }
 
     @Override
     public List<Food> findAll() {
-        return foodList;
+        return List.copyOf(foodList);
     }
 }
