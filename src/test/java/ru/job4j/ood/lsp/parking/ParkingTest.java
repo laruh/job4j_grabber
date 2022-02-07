@@ -1,5 +1,6 @@
 package ru.job4j.ood.lsp.parking;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-
+@Ignore
 public class ParkingTest {
 
     @Test
