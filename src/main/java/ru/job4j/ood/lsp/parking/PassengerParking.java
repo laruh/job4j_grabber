@@ -14,15 +14,20 @@ public class PassengerParking implements Parking {
 
     @Override
     public void park(Car car) {
+        if (!canPark(car)) {
+            throw  new IllegalArgumentException("You can not park this car");
+        }
+        store.add(car);
+        full += car.getParkingSize();
     }
 
     @Override
     public boolean canPark(Car car) {
-        return false;
+        return !store.contains(car) && capacity - full - car.getParkingSize() >= 0;
     }
 
     @Override
     public List<Car> getCars() {
-        return null;
+        return store.findAll();
     }
 }

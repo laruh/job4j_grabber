@@ -8,15 +8,19 @@ public class MemStore implements Store {
 
     @Override
     public void add(Car car) {
+        if (!contains(car)) {
+            cars.add(car);
+        }
+
     }
 
     @Override
     public boolean contains(Car car) {
-        return false;
+        return cars.contains(car);
     }
 
     @Override
     public List<Car> findAll() {
-        return null;
+        return List.copyOf(cars);
     }
 }
