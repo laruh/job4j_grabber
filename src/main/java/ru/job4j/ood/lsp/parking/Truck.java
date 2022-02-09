@@ -12,6 +12,9 @@ public class Truck implements Car {
     }
 
     public Truck(String id, int size) {
+        if (size < 2) {
+            throw new IllegalArgumentException("Размер грузовой машины должен быть > 1");
+        }
         this.id = id;
         this.size = size;
     }
