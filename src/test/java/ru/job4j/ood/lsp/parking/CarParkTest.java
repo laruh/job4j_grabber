@@ -12,19 +12,22 @@ import static org.hamcrest.Matchers.equalTo;
 public class CarParkTest {
 
     @Test
-    public void allCarsParkToPassengerPlace() {
+    public void whenTruckParkToPassengerPlace() {
         PassengerCar car = new PassengerCar("991");
         PassengerCar car1 = new PassengerCar("686");
         Truck car2 = new Truck("123", 3);
-        CarPark carPark = new CarPark(new MemStore(), 2, 5);
+        Truck car3 = new Truck("455", 2);
+        CarPark carPark = new CarPark(4, 1);
         carPark.park(car);
         carPark.park(car1);
-        assertTrue(carPark.canPark(car2));
         carPark.park(car2);
+        assertTrue(carPark.canPark(car3));
+        carPark.park(car3);
         List<Car> ex = List.of(new PassengerCar("991"), new PassengerCar("686"),
-                new Truck("123", 3));
+                new Truck("123", 3), new Truck("455", 2));
         assertThat(carPark.getCars(), equalTo(ex));
         assertThat(carPark.getPassengerCapacity(), equalTo(0));
+        assertThat(carPark.getTrackCapacity(), equalTo(0));
     }
 
     @Test
@@ -33,14 +36,14 @@ public class CarParkTest {
         PassengerCar car1 = new PassengerCar("686");
         Truck car2 = new Truck("444", 4);
         Truck car3 = new Truck("123", 3);
-        CarPark carPark = new CarPark(new MemStore(), 3, 5);
+        CarPark carPark = new CarPark(3, 2);
         carPark.park(car);
         carPark.park(car1);
         carPark.park(car2);
         List<Car> ex = List.of(new PassengerCar("991"), new PassengerCar("686"),
                 new Truck("444", 4));
         assertThat(carPark.getCars(), equalTo(ex));
-        assertFalse(carPark.canPark(car3));
+        assertTrue(carPark.canPark(car3));
         assertThat(carPark.getPassengerCapacity(), equalTo(1));
         assertThat(carPark.getTrackCapacity(), equalTo(1));
     }
@@ -49,16 +52,16 @@ public class CarParkTest {
     public void whenContainsPassengerCar() {
         PassengerCar car = new PassengerCar("656");
         PassengerCar car1 = new PassengerCar("656");
-        CarPark carPark = new CarPark(new MemStore(), 5, 2);
+        CarPark carPark = new CarPark(5, 2);
         carPark.park(car);
         assertFalse(carPark.canPark(car1));
     }
 
     @Test
     public void whenContainsTruck() {
-        Truck car = new Truck("656");
-        Truck car1 = new Truck("656");
-        CarPark carPark = new CarPark(new MemStore(), 5, 2);
+        Truck car = new Truck("656", 2);
+        Truck car1 = new Truck("656", 2);
+        CarPark carPark = new CarPark(5, 2);
         carPark.park(car);
         assertFalse(carPark.canPark(car1));
     }

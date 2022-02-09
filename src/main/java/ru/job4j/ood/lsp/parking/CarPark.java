@@ -3,12 +3,11 @@ package ru.job4j.ood.lsp.parking;
 import java.util.List;
 
 public class CarPark implements Parking {
-    private final Store store;
+    private final MemStore store = new MemStore();
     private int passengerCapacity;
     private int trackCapacity;
 
-    public CarPark(Store store, int passengerCapacity, int trackCapacity) {
-        this.store = store;
+    public CarPark(int passengerCapacity, int trackCapacity) {
         this.passengerCapacity = passengerCapacity;
         this.trackCapacity = trackCapacity;
     }
@@ -25,15 +24,15 @@ public class CarPark implements Parking {
     public boolean park(Car car) {
         boolean rsl = false;
         int carSize = car.getParkingSize();
-        if (carSize == 1 && canPark(car)) {
+        if (carSize == PassengerCar.SIZE && canPark(car)) {
             store.add(car);
             passengerCapacity -= 1;
             rsl = true;
         } else if (carSize >= 2 && canPark(car)) {
             store.add(car);
-            if (trackCapacity >= carSize) {
-                trackCapacity -= carSize;
-            } else if (passengerCapacity >= carSize) {
+            if (trackCapacity - 1 >= 0) {
+                trackCapacity -= 1;
+            } else if (passengerCapacity - carSize >= 0) {
                 passengerCapacity -= carSize;
             }
             rsl = true;
@@ -44,12 +43,12 @@ public class CarPark implements Parking {
     @Override
     public boolean canPark(Car car) {
         boolean rsl = false;
-        if (car.getParkingSize() == 1) {
+        if (car.getParkingSize() == PassengerCar.SIZE) {
             rsl = !store.contains(car)
                     && passengerCapacity - car.getParkingSize() >= 0;
         } else if (car.getParkingSize() >= 2) {
             rsl = !store.contains(car)
-                    && (trackCapacity - car.getParkingSize() >= 0
+                    && (trackCapacity - 1 >= 0
                     || passengerCapacity - car.getParkingSize() >= 0);
         }
         return rsl;

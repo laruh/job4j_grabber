@@ -3,8 +3,8 @@ package ru.job4j.ood.lsp.parking;
 import java.util.Objects;
 
 public class PassengerCar implements Car {
+    public static final int SIZE = 1;
     private final String id;
-    private final int size = 1;
 
     public PassengerCar(String id) {
         this.id = id;
@@ -12,7 +12,7 @@ public class PassengerCar implements Car {
 
     @Override
     public int getParkingSize() {
-        return this.size;
+        return SIZE;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PassengerCar implements Car {
         return "PassengerCar{"
                 + "id='" + id
                 + '\''
-                + ", size=" + size
+                + ", size=" + SIZE
                 + '}';
     }
 }

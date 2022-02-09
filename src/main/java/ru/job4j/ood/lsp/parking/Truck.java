@@ -6,23 +6,11 @@ public class Truck implements Car {
     private String id;
     private final int size;
 
-    public Truck(String id) {
-        this.id = id;
-        this.size = 2;
-    }
-
     public Truck(String id, int size) {
         if (size < 2) {
             throw new IllegalArgumentException("Размер грузовой машины должен быть > 1");
         }
         this.id = id;
-        this.size = size;
-    }
-
-    public Truck(int size) {
-        if (size < 2) {
-            throw new IllegalArgumentException("Размер грузовой машины должен быть > 1");
-        }
         this.size = size;
     }
 
