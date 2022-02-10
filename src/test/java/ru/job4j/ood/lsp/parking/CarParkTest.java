@@ -49,20 +49,24 @@ public class CarParkTest {
     }
 
     @Test
-    public void whenContainsPassengerCar() {
+    public void whenSamePassengerCarAlreadyParked() {
         PassengerCar car = new PassengerCar("656");
         PassengerCar car1 = new PassengerCar("656");
-        CarPark carPark = new CarPark(5, 2);
+        PassengerCar car2 = new PassengerCar("888");
+        CarPark carPark = new CarPark(2, 1);
         carPark.park(car);
         assertFalse(carPark.canPark(car1));
+        assertTrue(carPark.park(car2));
     }
 
     @Test
-    public void whenContainsTruck() {
+    public void whenSameTruckAlreadyParked() {
         Truck car = new Truck("656", 2);
         Truck car1 = new Truck("656", 2);
-        CarPark carPark = new CarPark(5, 2);
+        Truck car2 = new Truck("888", 3);
+        CarPark carPark = new CarPark(1, 2);
         carPark.park(car);
         assertFalse(carPark.canPark(car1));
+        assertTrue(carPark.park(car2));
     }
 }
