@@ -54,17 +54,16 @@ public class AlertRabbit {
         @Override
         public void execute(JobExecutionContext context) throws JobExecutionException {
             System.out.println("Rabbit runs here ...");
-            try (Connection connection = (Connection) context
+            Connection connection = (Connection) context
                     .getJobDetail()
                     .getJobDataMap()
-                    .get("connection")) {
-                try (PreparedStatement statement = connection.prepareStatement(
-                        "insert into rabbit(created_date) values(current_timestamp)"
-                )) {
-                    statement.execute();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                    .get("connection");
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "insert into rabbit(created_date) values(current_timestamp)"
+            )) {
+                statement.execute();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         }
     }
